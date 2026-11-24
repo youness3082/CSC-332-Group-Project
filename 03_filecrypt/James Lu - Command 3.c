@@ -233,6 +233,11 @@ int filecrypt_main(int argc, char **argv) {
     return crypt_file(enc_mode, argv[optind], argv[optind + 1], password);
 }
 
+/*
+Allows filecrypt to run as a standalone program.
+If FILECRYPT_NO_MAIN is defined, main() is skipped so the Custom Shell
+can call filecrypt_main(argc, argv) directly.
+*/
 #ifndef FILECRYPT_NO_MAIN
 int main(int argc, char **argv)
 {
