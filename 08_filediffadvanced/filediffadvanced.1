@@ -1,0 +1,24 @@
+.TH FILEDIFFADVANCED 1
+.SH NAME
+filediffadvanced \- compare files and report performance
+.SH SYNOPSIS
+.B filediffadvanced
+.RB [ \-v ]
+.RB [ \-t ]
+.I file1 file2
+.SH DESCRIPTION
+Compares regular files using read-only memory mappings. Missing trailing bytes count as differences. Reports elapsed byte comparison time and combined input throughput in MiB/s.
+.SH OPTIONS
+.TP
+.B \-v
+Show first 20 differing byte positions, zero-based; -1 denotes a missing byte.
+.TP
+.B \-t
+Also compare corresponding lines, showing the first 20 differing line numbers and total count.
+.TP
+.B \-h
+Show usage.
+.SH EXIT STATUS
+0 identical or help; 1 different; 2 error or interruption.
+.SH NOTES
+Inputs must remain unchanged during comparison. Line comparison is positional. Timing excludes mapping setup and the optional line pass. SIGINT and SIGTERM request orderly cleanup.
