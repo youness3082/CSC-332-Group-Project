@@ -1,0 +1,71 @@
+.TH FILECRYPT 1 "November 2026" "Operating Systems I" "User Commands"
+.SH NAME
+filecrypt \- encrypt and decrypt files using AES-256-GCM
+.SH SYNOPSIS
+.B filecrypt
+.B -e
+.B -p
+.I password
+.I input
+.I output
+
+.B filecrypt
+.B -d
+.B -p
+.I password
+.I input
+.I output
+
+.SH DESCRIPTION
+.B filecrypt
+encrypts and decrypts regular files using AES-256-GCM.
+The encryption key is derived from the user's password
+using PBKDF2 with SHA-256.
+
+The program uses mmap() to map the input file into memory.
+It uses sigaction() to handle interruption signals and
+OPENSSL_cleanse() to clear sensitive data from memory.
+
+Encrypted files contain a file header, random salt,
+initialization vector, ciphertext, and authentication tag.
+
+.SH OPTIONS
+.TP
+.B -e
+Encrypt the input file.
+
+.TP
+.B -d
+Decrypt the input file.
+
+.TP
+.B -p password
+Specify the password used to derive the encryption key.
+
+.TP
+.B -h
+Display usage information.
+
+.SH EXAMPLES
+Encrypt a file:
+.PP
+.B filecrypt -e -p mypassword input.txt encrypted.bin
+
+.PP
+Decrypt a file:
+.PP
+.B filecrypt -d -p mypassword encrypted.bin output.txt
+
+.SH LIMITATIONS
+The output file must not already exist.
+Input and output paths must be different.
+Passwords supplied through -p may be visible in process arguments.
+Output files are created with permission 0600.
+
+.SH SECURITY
+AES-256-GCM provides encryption and authentication.
+PBKDF2-SHA256 derives the encryption key.
+Random salts and IVs are generated for each encrypted file.
+
+.SH SEE ALSO
+openssl(1), mmap(2), munmap(2), sigaction(2), getopt(3)
