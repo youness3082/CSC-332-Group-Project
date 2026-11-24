@@ -3,20 +3,66 @@
 Moves data from one process to another through shared memory. Two pipes carry
 1-byte signals so the two processes take turns using the memory.
 
-## Build and test
+## Live demo (run in this order)
+
+Start in the repository folder (`CSC-332-Group-Project`).
+
+**1. Build and run the tests.** All 9 tests should print `PASS`.
 
 ```bash
+cd 06_sharedmempipe
 make
 make test
 ```
 
-## Run
+**2. Send one message.** Prints `hello`.
 
 ```bash
-./sharedmempipe -m "hello"                 # send one message
-printf "one\ntwo\n" | ./sharedmempipe      # send standard input
-./sharedmempipe < bigfile > copy           # works for any file, including binary
-man ./sharedmempipe.1                      # read the man page
+./sharedmempipe -m "hello"
+```
+
+**3. Send lines through standard input.** Prints `one` and `two`.
+
+```bash
+printf "one\ntwo\n" | ./sharedmempipe
+```
+
+**4. Send a 1 MB binary file (about 245 chunks).** Prints `IDENTICAL`.
+
+```bash
+head -c 1000000 /dev/urandom > big.bin
+./sharedmempipe < big.bin > copy.bin
+cmp big.bin copy.bin && echo IDENTICAL
+```
+
+**5. Show the help, then a bad option.** The bad option prints the usage and `exit=2`.
+
+```bash
+./sharedmempipe -h
+./sharedmempipe -x; echo "exit=$?"
+```
+
+**6. Stop with Ctrl+C.** Type a few lines. They do not print yet, because the
+program waits until it has a full 4096-byte chunk or the input ends. Press
+Ctrl+C: the lines print and the program stops cleanly. Then run the `echo`. It
+prints `exit=1`, which means it was interrupted but shut down properly.
+
+```bash
+cat | ./sharedmempipe
+echo "exit=$?"
+```
+
+**7. Open the man page.** Press `q` to close it.
+
+```bash
+man ./sharedmempipe.1
+```
+
+**8. Clean up.**
+
+```bash
+make clean
+rm -f big.bin copy.bin
 ```
 
 ## Options
