@@ -1,0 +1,24 @@
+.TH LOGANALYZER 1 "November 2026" "OS I" "User Commands"
+.SH NAME
+loganalyzer \- count log lines, levels and keyword occurrences with mmap
+.SH SYNOPSIS
+.B loganalyzer
+.RB [ -k " keyword" ]
+.RB [ -v ]
+.I FILE
+.SH DESCRIPTION
+Map a regular log file read-only with mmap and count lines containing ERROR, WARN and INFO. These categories can overlap. Keyword matching is case-sensitive and literal. -v prints matching lines when -k is specified; lines are truncated to 1000 bytes for display.
+.SH OPTIONS
+.TP
+.BI -k " keyword"
+Count lines containing keyword.
+.TP
+.B -v
+Print matching lines with line numbers.
+.TP
+.B -h
+Print usage.
+.SH EXIT STATUS
+0 success; 2 invalid arguments or file errors.
+.SH NOTES
+Only regular files are accepted. No log format or timestamp parsing is assumed.
