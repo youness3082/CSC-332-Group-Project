@@ -34,7 +34,7 @@ sharedmempipe -h            show help
 #define CHUNK_SIZE 4096
 
 // The 1-byte tokens sent through the pipes to convey status 
-#define TOKEN_DATA 'D'   // producer -> consumer: the block has new data. DONE
+#define TOKEN_DATA 'D'   // producer -> consumer: the block has new data. READY
 #define TOKEN_QUIT 'Q'   // producer -> consumer: no more data, exit. QUIT
 #define TOKEN_ACK  'A'   // consumer -> producer: done reading the block. ACK
 
