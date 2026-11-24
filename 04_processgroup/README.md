@@ -25,4 +25,4 @@ fork/execvp start up to 128 processes in a common process group; Ctrl+C/SIGTERM 
 
 ## Deliverables
 
-`processgroup.c` (source), `Makefile`, `test.sh` (tests), `processgroup.1` (man page).
+`Thierno Diallo - Command 4.c` (source), `Makefile`, `test.sh` (tests), `processgroup.1` (man page).
