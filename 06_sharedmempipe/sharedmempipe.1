@@ -1,0 +1,67 @@
+.TH SHAREDMEMPIPE 1 "November 2026" "Operating Systems I" "User Commands"
+.SH NAME
+sharedmempipe \- transfer data between processes through shared memory, synchronized by pipes
+.SH SYNOPSIS
+.B sharedmempipe
+.RB [ \-m
+.IR text ]
+.br
+.B sharedmempipe
+.B \-h
+.SH DESCRIPTION
+.B sharedmempipe
+creates a 4096-byte shared memory block with
+.BR mmap (2)
+and then calls
+.BR fork (2).
+The parent process (producer) copies data into the block. The child process
+(consumer) writes the block to standard output.
+.PP
+Two pipes keep the processes in step. The producer sends the byte
+.B D
+on the ready pipe when the block holds new data, and waits. The consumer
+sends the byte
+.B A
+on the acknowledgement pipe after it has written the data. Only then does the
+producer reuse the block. At the end, the producer sends
+.B Q
+and waits for the child with
+.BR waitpid (2).
+.PP
+Input larger than 4096 bytes is sent in several chunks. Binary data is
+supported when reading from standard input.
+.SH OPTIONS
+.TP
+.BI \-m " text"
+Send
+.I text
+instead of reading standard input.
+.TP
+.B \-h
+Print usage and exit.
+.SH EXIT STATUS
+.TP
+.B 0
+All data was transferred.
+.TP
+.B 1
+A system call failed, the child failed, or the transfer was interrupted.
+.TP
+.B 2
+Invalid options or arguments.
+.SH SIGNALS
+SIGINT and SIGTERM make the producer stop after the current chunk, tell the
+child to quit, and exit with status 1. SIGPIPE is ignored, so a dead consumer
+causes a reported error instead of a silent exit.
+.SH EXAMPLES
+.nf
+sharedmempipe \-m "hello"
+printf "one\\ntwo\\n" | sharedmempipe
+sharedmempipe < image.png > copy.png
+.fi
+.SH SEE ALSO
+.BR mmap (2),
+.BR pipe (2),
+.BR fork (2),
+.BR waitpid (2),
+.BR sigaction (2)
