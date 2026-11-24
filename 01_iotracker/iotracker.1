@@ -1,0 +1,179 @@
+.TH IOTRACKER 1 "November 2026" "Operating Systems I" "User Commands"
+.SH NAME
+iotracker \- monitor a process's real-time I/O activity
+.SH SYNOPSIS
+.B iotracker
+[\fB\-i\fR \fIsec\fR] [\fB\-n\fR \fIcount\fR] [\fB\-w\fR \fIpath\fR]... [\fB\-f\fR] [\fB\-q\fR]
+.B \-p
+.I pid
+.PP
+.B iotracker
+[\fB\-i\fR \fIsec\fR] [\fB\-n\fR \fIcount\fR] [\fB\-w\fR \fIpath\fR]... [\fB\-f\fR] [\fB\-q\fR]
+.B \-\-
+.I command
+[\fIargs\fR...]
+.PP
+.B iotracker \-h
+.SH DESCRIPTION
+.B iotracker
+reports the I/O activity of one process while it runs. It either attaches
+to an existing process (\fB\-p\fR) or launches a command and follows it
+until it exits.
+.PP
+Every interval it reads the kernel's I/O accounting for the process from
+.I /proc/PID/io
+and prints one line with:
+.TP 12
+.B read/s, write/s
+bytes passed to read and write system calls per second (includes data
+served from the page cache, pipes and terminals).
+.TP
+.B disk\-rd/s, disk\-wr/s
+bytes per second that actually had to be fetched from, or sent to, the
+storage layer.
+.TP
+.B rd\-sys, wr\-sys
+number of read and write system calls in the interval.
+.PP
+With
+.BR \-w ,
+.B iotracker
+uses
+.BR inotify (7)
+to print file events (OPEN, ACCESS, MODIFY, CLOSE_WRITE, CLOSE_NOWRITE,
+CREATE, DELETE, MOVED_FROM, MOVED_TO) on the given files or directories as
+they happen.
+.PP
+With
+.BR \-f ,
+it follows the offset of every regular file the process has open (from
+.IR /proc/PID/fdinfo )
+and prints how each offset moves. A file whose offset only moves forward is
+reported as
+.BR sequential ;
+a file whose offset ever moves backwards (a seek) is reported as
+.BR random .
+.PP
+When monitoring ends (the process exits, the sample limit is reached, or
+.B iotracker
+receives SIGINT or SIGTERM), a summary is printed with total and average
+traffic, peak rates, per-file inotify event counts, the access pattern of
+each file, and the exit status of a launched command.
+.SH OPTIONS
+.TP
+.BI \-p " pid"
+Monitor the existing process
+.IR pid .
+Cannot be combined with a command.
+.TP
+.BI \-i " sec"
+Sampling interval in seconds, between 0.05 and 3600. Fractions such as
+0.5 are allowed. Default: 1.
+.TP
+.BI \-n " count"
+Stop after
+.I count
+samples. A launched command is then terminated with SIGTERM. Default:
+run until the process exits.
+.TP
+.BI \-w " path"
+Watch a file or directory with inotify. May be given up to 32 times.
+.TP
+.B \-f
+Follow open file offsets and report sequential or random access.
+.TP
+.B \-q
+Quiet: print only the final summary.
+.TP
+.B \-h
+Show usage information and exit.
+.TP
+.B \-\-
+End of options. Everything after it is the command to launch.
+.SH EXIT STATUS
+.TP
+.B 0
+Monitoring finished normally (including after SIGINT or SIGTERM).
+.TP
+.B 1
+Runtime error: the process does not exist, its I/O counters cannot be
+read, the command cannot be started, or a path cannot be watched.
+.TP
+.B 2
+Invalid command-line usage.
+.SH EXAMPLES
+Watch a copy, sampling twice a second:
+.PP
+.RS
+.B iotracker \-i 0.5 \-\- cp big.iso /tmp/copy.iso
+.RE
+.PP
+Attach to a running process for 10 samples:
+.PP
+.RS
+.B iotracker \-p 1234 \-n 10
+.RE
+.PP
+Show file events in a directory and the access pattern of open files:
+.PP
+.RS
+.B iotracker \-f \-w ./data \-\- ./myprogram
+.RE
+.PP
+Print only the summary:
+.PP
+.RS
+.B iotracker \-q \-\- tar czf backup.tgz ./project
+.RE
+.SH IMPLEMENTATION
+.BR poll (2)
+waits on a
+.BR timerfd_create (2)
+timer and the inotify descriptor at the same time.
+.BR ioctl (2)
+with FIONREAD sizes the inotify read buffer exactly, and with TIOCGWINSZ
+fits output lines to the terminal width.
+A launched command is started with
+.BR fork (2)
+and
+.BR execvp (3)
+under
+.BR ptrace (2)
+with PTRACE_O_TRACEEXIT, so the kernel stops it just before it exits and
+the final counters can still be read; signals sent to the command are
+passed through unchanged.
+.BR sigaction (2)
+handles SIGINT, SIGTERM and SIGCHLD, and the previous handlers are
+restored on return so the command can run inside the Custom Shell.
+.SH LIMITATIONS
+.IP \(bu 2
+.I /proc/PID/io
+counts only the process itself (all its threads), not child processes it
+creates. Monitoring
+.B "sh \-c 'cat file'"
+measures the shell, not
+.BR cat .
+Launch the program that does the I/O directly.
+.IP \(bu 2
+inotify is path based: events on watched paths are reported no matter
+which process caused them.
+.IP \(bu 2
+File offsets are only seen at sample times, so a file opened and closed
+between two samples does not appear in the
+.B \-f
+report. Use a smaller interval for short-lived files.
+.IP \(bu 2
+Disk columns can stay at 0 when data is served from the page cache, or
+when writes are still waiting to be flushed by the kernel.
+.IP \(bu 2
+Monitoring another user's process requires root. A launched command
+cannot already be traced by a debugger.
+.SH SEE ALSO
+.BR inotify (7),
+.BR proc (5),
+.BR poll (2),
+.BR ioctl (2),
+.BR ptrace (2),
+.BR timerfd_create (2),
+.BR iotop (8),
+.BR strace (1)
