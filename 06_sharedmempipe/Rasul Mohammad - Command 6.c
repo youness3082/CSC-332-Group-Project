@@ -22,6 +22,7 @@ sharedmempipe -h            show help
 #define _GNU_SOURCE          // needed for MAP_ANONYMOUS on Linux
 #include <errno.h>
 #include <signal.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -51,7 +52,15 @@ struct shared_block {
 // when you ctrl + c, we run a small function to atomically switch from 0 -> 1. This is what we know to do before sending a new chunk / clean up
 static volatile sig_atomic_t stop_requested = 0;
 
+// -v turns on status messages that show each step. They go to stderr, so they never mix into the data on stdout
+static int verbose = 0;
+
+// Totals for the final -v summary (only the producer updates these)
+static size_t chunks_sent = 0;
+static size_t bytes_sent  = 0;
+
 // function declarations
+static void report(const char *format, ...);
 static void handle_stop_signal(int signal_number);
 static void print_usage(const char *program_name);
 static int write_all(int fd, const void *buffer, size_t count);
@@ -73,12 +82,18 @@ int sharedmempipe_main(int argc, char **argv) {
     // Reset state so the command can run more than once in the same program
     optind = 1;
     stop_requested = 0;
+    verbose = 0;
+    chunks_sent = 0;
+    bytes_sent = 0;
 
     // 1. Parse command-line options with getopt(). Function parses CLI options automatically
-    while ((option = getopt(argc, argv, "m:h")) != -1) {
+    while ((option = getopt(argc, argv, "m:vh")) != -1) {
         switch (option) {
         case 'm':
             message = optarg;
+            break;
+        case 'v':
+            verbose = 1;
             break;
         case 'h':
             print_usage(argv[0]);
@@ -103,6 +118,7 @@ int sharedmempipe_main(int argc, char **argv) {
         perror("mmap");
         return 1;
     }
+    report("[setup]    created a %zu-byte shared memory block with mmap()\n", sizeof block->data);
 
     // 3. Create signaling pipes: ready_pipe for producer -> consumer ('D' and 'Q') + ack_pipe for consumer -> producer ('A')
     int ready_pipe[2];
@@ -148,6 +164,7 @@ int sharedmempipe_main(int argc, char **argv) {
     // PARENT = producer. Close the pipe ends it does not use.
     close(ready_pipe[READ_END]);
     close(ack_pipe[WRITE_END]);
+    report("[setup]    created 2 pipes and forked the consumer (pid %d)\n", (int)child);
 
     // error handling
     int failed;
@@ -157,6 +174,9 @@ int sharedmempipe_main(int argc, char **argv) {
         failed = produce_from_stdin(block, ready_pipe[WRITE_END], ack_pipe[READ_END]);
 
     // 5. Send 'Q' and then clean up
+    if (stop_requested)
+        report("[producer] Ctrl+C received, stopping early\n");
+    report("[producer] no more input, sending 'Q'\n");
     send_token(ready_pipe[WRITE_END], TOKEN_QUIT);
     close(ready_pipe[WRITE_END]);
     close(ack_pipe[READ_END]);
@@ -170,6 +190,9 @@ int sharedmempipe_main(int argc, char **argv) {
 
     // Exit 0 only if both sides succeeded and nobody pressed Ctrl+C.
     int child_ok = WIFEXITED(status) && WEXITSTATUS(status) == 0;
+    report("[done]     sent %zu bytes in %zu chunk%s, consumer exited with status %d\n",
+           bytes_sent, chunks_sent, chunks_sent == 1 ? "" : "s",
+           WIFEXITED(status) ? WEXITSTATUS(status) : -1);
     if (failed || stop_requested || !child_ok)
         return 1;
     return 0;
@@ -181,6 +204,16 @@ int main(int argc, char **argv) {
 }
 #endif
 
+// Print a status message to stderr, only when -v is on. Works like printf().
+static void report(const char *format, ...) {
+    if (!verbose)
+        return;
+    va_list args;
+    va_start(args, format);
+    vfprintf(stderr, format, args);
+    va_end(args);
+}
+
 static void handle_stop_signal(int signal_number) {
     (void)signal_number;    
     stop_requested = 1;
@@ -189,8 +222,9 @@ static void handle_stop_signal(int signal_number) {
 
 static void print_usage(const char *program_name) {
     fprintf(stderr,
-            "Usage: %s [-m text]\n"
+            "Usage: %s [-v] [-m text]\n"
             "  -m text   send this text through shared memory\n"
+            "  -v        verbose: print each step to standard error\n"
             "  -h        show this help\n"
             "With no -m, data is read from standard input.\n",
             program_name);
@@ -276,20 +310,29 @@ static int run_consumer(struct shared_block *block, int ready_fd, int ack_fd) {
     // Wait for a message
     while (receive_token(ready_fd, &token) == 0) {
         // If 'Q' theres no more data, return
-        if (token == TOKEN_QUIT)
+        if (token == TOKEN_QUIT) {
+            report("[consumer] got 'Q', exiting\n");
             return 0;
+        }
 
         // Safety check: never trust a length bigger than the buffer.
         if (block->length > CHUNK_SIZE)
             return 1;
-        
-            // Print the data 
+
+        report("[consumer] got 'D', printing %zu bytes from shared memory\n", block->length);
+
+            // Print the data
         if (fwrite(block->data, 1, block->length, stdout) != block->length)
             return 1;
         if (fflush(stdout) != 0)
             return 1;
 
+        // With -v on a terminal, start the next status message on a new line if the data didn't end with one
+        if (verbose && isatty(STDOUT_FILENO) && block->length > 0 && block->data[block->length - 1] != '\n')
+            fputc('\n', stderr);
+
         // Tell the producer the block is free to reuse.
+        report("[consumer] sending 'A'\n");
         if (send_token(ack_fd, TOKEN_ACK) != 0)
             return 1;
     }
@@ -305,10 +348,14 @@ static int hand_off_chunk(struct shared_block *block, size_t length, int ready_f
     char reply;
 
     block->length = length;
+    chunks_sent++;
+    bytes_sent += length;
+    report("[producer] chunk %zu: put %zu bytes in shared memory, sending 'D'\n", chunks_sent, length);
     if (send_token(ready_fd, TOKEN_DATA) != 0)
         return -1;
     if (receive_token(ack_fd, &reply) != 0)
         return -1;
+    report("[producer] got 'A', shared memory is free again\n");
     return 0;
 }
 
