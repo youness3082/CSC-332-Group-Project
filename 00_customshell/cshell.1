@@ -1,0 +1,162 @@
+.TH CSHELL 1 "November 2026" "Operating Systems I" "User Commands"
+.SH NAME
+cshell \- Custom Shell that combines the CSC332 Group 7 commands
+.SH SYNOPSIS
+.B cshell
+[\fB\-x\fR] [\fIscript\fR]
+.PP
+.B cshell
+[\fB\-x\fR]
+.B \-c
+.I "command line"
+.PP
+.B cshell \-h
+.SH DESCRIPTION
+.B cshell
+is a small command shell. It reads command lines from the terminal, from a
+script file, or from
+.BR \-c ,
+and runs them.
+.PP
+The team commands are linked into
+.B cshell
+itself and are called directly:
+.TP 18
+.B iotracker
+(Command 1) monitor a process's real-time I/O activity
+.TP
+.B filecrypt
+(Command 3) encrypt or decrypt a file with AES-256-GCM
+.TP
+.B processgroup
+(Command 4) launch, signal and monitor a group of commands
+.TP
+.B loganalyzer
+(Command 5) count log levels and keywords in a log file
+.TP
+.B sharedmempipe
+(Command 6) move data between processes through shared memory
+.TP
+.B filediffadvanced
+(Command 8) compare two files byte by byte and line by line
+.PP
+Any other name, such as
+.B ls
+or
+.BR cat ,
+is run as a normal program found through
+.BR PATH .
+.SH OPTIONS
+.TP
+.BI \-c " line"
+Run one command line and exit with its status.
+.TP
+.B \-x
+Print each command (as
+.BR "cshell> command" )
+before running it. Useful for demo scripts.
+.TP
+.B \-h
+Show usage information and exit.
+.SH SYNTAX
+.TP 18
+.B cmd args...
+Run a command.
+.TP
+.B \(dqa b\(dq  \(aqa b\(aq
+Quotes keep spaces, |, < and > inside one argument. Inside double quotes,
+\e\(dq and \e\e are escapes.
+.TP
+.B cmd < file
+Read standard input from
+.IR file .
+.TP
+.B cmd > file
+Write standard output to
+.IR file ,
+replacing it.
+.TP
+.B cmd >> file
+Append standard output to
+.IR file .
+.TP
+.B cmd1 | cmd2
+Connect the output of
+.I cmd1
+to the input of
+.IR cmd2 .
+Up to 16 stages.
+.TP
+.B # text
+A comment; the rest of the line is ignored.
+.SH BUILT-IN COMMANDS
+.TP 18
+.B help [command]
+List all commands, or show the usage of one team command.
+.TP
+.B cd [dir]
+Change directory (default:
+.BR $HOME ).
+.TP
+.B exit [status]
+Leave the shell. Ctrl+D at the prompt also exits.
+.SH SIGNALS
+Ctrl+C stops the running command, not the shell. At an empty prompt it
+just shows a new prompt. Each command runs in its own child process with
+the default signal settings, so a command's own handlers (for example
+iotracker printing its summary) still work.
+.SH EXIT STATUS
+The exit status of the last command run, 128 + N if it was killed by
+signal N, 127 if the command was not found, 2 for a syntax error, or the
+value given to
+.BR exit .
+.SH EXAMPLES
+.nf
+cshell:project> help
+cshell:project> iotracker -i 0.5 \-\- dd if=/dev/zero of=/tmp/x bs=1M count=100
+cshell:project> filecrypt \-e \-p secret notes.txt notes.enc
+cshell:project> processgroup \-i 1 \-\- sleep 2 ::: sleep 3
+cshell:project> loganalyzer \-k ERROR \-v app.log > errors.txt
+cshell:project> cat big.bin | sharedmempipe > copy.bin
+cshell:project> filediffadvanced \-t a.txt b.txt
+.fi
+.PP
+Run a prepared demo, echoing each command:
+.PP
+.RS
+.B cshell \-x demo.txt
+.RE
+.SH IMPLEMENTATION
+Each team command's source file is compiled with
+.BI \- NAME _NO_MAIN
+so that only its
+.IB name _main()
+function is linked in. For every command line,
+.B cshell
+creates the pipes with
+.BR pipe (2),
+starts one child per stage with
+.BR fork (2),
+connects input and output with
+.BR dup2 (2),
+then either calls the team command's function or uses
+.BR execvp (3).
+The shell waits for all stages with
+.BR waitpid (2).
+.BR sigaction (2)
+keeps the shell alive on SIGINT and ignores SIGQUIT.
+.SH LIMITATIONS
+No variables, wildcards (*), command separators (; && ||), background
+jobs (&) or job control. Commands that run other commands (processgroup,
+iotracker) read their own options first, so put
+.B \-\-
+before a command that has options of its own, e.g.
+.BR "processgroup \-\- sh \-c \(dqecho hi\(dq" .
+.SH SEE ALSO
+.BR iotracker (1),
+.BR filecrypt (1),
+.BR processgroup (1),
+.BR loganalyzer (1),
+.BR sharedmempipe (1),
+.BR filediffadvanced (1),
+.BR sh (1)

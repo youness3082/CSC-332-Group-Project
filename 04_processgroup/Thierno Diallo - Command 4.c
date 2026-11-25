@@ -27,8 +27,14 @@ static void usage(const char *p)
             "...]\n",
             p);
 }
-int main(int argc, char **argv)
+// processgroup_main() is the entry point. The Custom Shell compiles this file
+// with -DPROCESSGROUP_NO_MAIN and calls it directly.
+int processgroup_main(int argc, char **argv)
 {
+    // Reset state so the command can run more than once in the same program.
+    optind = 1;
+    interrupted = 0;
+    pgid = -1;
 
     // Read the monitor interval and optional timeout before the commands.
     int opt, interval = 1, timeout = 0;
@@ -168,3 +174,10 @@ int main(int argc, char **argv)
     }
     return failed || interrupted ? 1 : 0;
 }
+
+#ifndef PROCESSGROUP_NO_MAIN
+int main(int argc, char **argv)
+{
+    return processgroup_main(argc, argv);
+}
+#endif
