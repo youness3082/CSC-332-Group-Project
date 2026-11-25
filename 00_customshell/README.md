@@ -77,4 +77,4 @@ Each `_main()` also resets `optind` and its own flags, so a command can run many
 
 ## Files
 
-`cshell.c` (shell), `commands.h` (command entry points), `Makefile`, `test.sh` (14 tests), `cshell.1` (man page).
+`cshell.c` (shell), `commands.h` (command entry points), `Makefile`, `test.sh` (14 tests), `cshell.1` (man page), `cshell.pdf` (man page as PDF).
