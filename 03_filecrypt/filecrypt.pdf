@@ -1,0 +1,1529 @@
+%PDF-1.1
+1 0 obj
+<<
+>>
+endobj
+3 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F0
+/BaseFont /Times-Roman
+>>
+endobj
+4 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Times-Bold
+>>
+endobj
+5 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F2
+/BaseFont /Times-Italic
+>>
+endobj
+6 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F3
+/BaseFont /Times-BoldItalic
+>>
+endobj
+7 0 obj
+<<
+/Length 8 0 R
+>>
+stream
+BT
+/F1 11 Tf
+68.024 702.988 Td
+(NAME) Tj
+ET
+/F0 11 Tf
+BT
+/F0 11 Tf
+87.274 687.599 Td
+(filecrypt) Tj
+ET
+BT
+/F0 11 Tf
+127.292 687.599 Td
+(-) Tj
+ET
+BT
+/F0 11 Tf
+133.705 687.599 Td
+(encrypt) Tj
+ET
+BT
+/F0 11 Tf
+169.444 687.599 Td
+(and) Tj
+ET
+BT
+/F0 11 Tf
+188.078 687.599 Td
+(decrypt) Tj
+ET
+BT
+/F0 11 Tf
+223.817 687.599 Td
+(files) Tj
+ET
+BT
+/F0 11 Tf
+245.509 687.599 Td
+(using) Tj
+ET
+BT
+/F0 11 Tf
+272.096 687.599 Td
+(AES-256-GCM) Tj
+ET
+/F1 11 Tf
+BT
+/F1 11 Tf
+68.024 656.821 Td
+(SYNOPSIS) Tj
+ET
+BT
+/F1 11 Tf
+87.274 641.432 Td
+(filecrypt) Tj
+ET
+BT
+/F1 11 Tf
+129.734 641.432 Td
+(-e) Tj
+ET
+BT
+/F1 11 Tf
+141.031 641.432 Td
+(-p) Tj
+ET
+/F2 11 Tf
+BT
+/F2 11 Tf
+153.560 641.432 Td
+(password) Tj
+ET
+BT
+/F2 11 Tf
+198.484 641.432 Td
+(input) Tj
+ET
+BT
+/F2 11 Tf
+223.850 641.432 Td
+(output) Tj
+ET
+/F1 11 Tf
+BT
+/F1 11 Tf
+87.274 610.654 Td
+(filecrypt) Tj
+ET
+BT
+/F1 11 Tf
+129.734 610.654 Td
+(-d) Tj
+ET
+BT
+/F1 11 Tf
+142.263 610.654 Td
+(-p) Tj
+ET
+/F2 11 Tf
+BT
+/F2 11 Tf
+154.792 610.654 Td
+(password) Tj
+ET
+BT
+/F2 11 Tf
+199.716 610.654 Td
+(input) Tj
+ET
+BT
+/F2 11 Tf
+225.082 610.654 Td
+(output) Tj
+ET
+/F1 11 Tf
+BT
+/F1 11 Tf
+68.024 564.487 Td
+(DESCRIPTION) Tj
+ET
+BT
+/F1 11 Tf
+87.274 549.098 Td
+(filecrypt) Tj
+ET
+/F0 11 Tf
+BT
+/F0 11 Tf
+129.734 549.098 Td
+(encrypts) Tj
+ET
+BT
+/F0 11 Tf
+169.752 549.098 Td
+(and) Tj
+ET
+BT
+/F0 11 Tf
+188.386 549.098 Td
+(decrypts) Tj
+ET
+BT
+/F0 11 Tf
+228.404 549.098 Td
+(regular) Tj
+ET
+BT
+/F0 11 Tf
+262.306 549.098 Td
+(files) Tj
+ET
+BT
+/F0 11 Tf
+283.998 549.098 Td
+(using) Tj
+ET
+BT
+/F0 11 Tf
+310.585 549.098 Td
+(AES-256-GCM.) Tj
+ET
+BT
+/F0 11 Tf
+388.498 549.098 Td
+(The) Tj
+ET
+BT
+/F0 11 Tf
+408.353 549.098 Td
+(encryption) Tj
+ET
+BT
+/F0 11 Tf
+458.150 549.098 Td
+(key) Tj
+ET
+BT
+/F0 11 Tf
+476.784 549.098 Td
+(is) Tj
+ET
+BT
+/F0 11 Tf
+486.871 549.098 Td
+(derived) Tj
+ET
+BT
+/F0 11 Tf
+522.610 549.098 Td
+(from) Tj
+ET
+BT
+/F0 11 Tf
+87.274 533.709 Td
+(the) Tj
+ET
+BT
+/F0 11 Tf
+103.466 533.709 Td
+(user's) Tj
+ET
+BT
+/F0 11 Tf
+132.484 533.709 Td
+(password) Tj
+ET
+BT
+/F0 11 Tf
+176.781 533.709 Td
+(using) Tj
+ET
+BT
+/F0 11 Tf
+203.368 533.709 Td
+(PBKDF2) Tj
+ET
+BT
+/F0 11 Tf
+247.071 533.709 Td
+(with) Tj
+ET
+BT
+/F0 11 Tf
+269.379 533.709 Td
+(SHA-256.) Tj
+ET
+BT
+/F0 11 Tf
+87.274 502.931 Td
+(The) Tj
+ET
+BT
+/F0 11 Tf
+107.129 502.931 Td
+(program) Tj
+ET
+BT
+/F0 11 Tf
+147.147 502.931 Td
+(uses) Tj
+ET
+BT
+/F0 11 Tf
+168.839 502.931 Td
+(mmap\(\)) Tj
+ET
+BT
+/F0 11 Tf
+206.415 502.931 Td
+(to) Tj
+ET
+BT
+/F0 11 Tf
+217.723 502.931 Td
+(map) Tj
+ET
+BT
+/F0 11 Tf
+239.415 502.931 Td
+(the) Tj
+ET
+BT
+/F0 11 Tf
+255.607 502.931 Td
+(input) Tj
+ET
+BT
+/F0 11 Tf
+280.973 502.931 Td
+(file) Tj
+ET
+BT
+/F0 11 Tf
+298.386 502.931 Td
+(into) Tj
+ET
+BT
+/F0 11 Tf
+318.252 502.931 Td
+(memory.) Tj
+ET
+BT
+/F0 11 Tf
+363.165 502.931 Td
+(It) Tj
+ET
+BT
+/F0 11 Tf
+372.636 502.931 Td
+(uses) Tj
+ET
+BT
+/F0 11 Tf
+394.328 502.931 Td
+(sigaction\(\)) Tj
+ET
+BT
+/F0 11 Tf
+444.125 502.931 Td
+(to) Tj
+ET
+BT
+/F0 11 Tf
+455.433 502.931 Td
+(handle) Tj
+ET
+BT
+/F0 11 Tf
+487.509 502.931 Td
+(interruption) Tj
+ET
+BT
+/F0 11 Tf
+87.274 487.542 Td
+(signals) Tj
+ET
+BT
+/F0 11 Tf
+120.582 487.542 Td
+(and) Tj
+ET
+BT
+/F0 11 Tf
+139.216 487.542 Td
+(OPENSSL_cleanse\(\)) Tj
+ET
+BT
+/F0 11 Tf
+234.839 487.542 Td
+(to) Tj
+ET
+BT
+/F0 11 Tf
+246.147 487.542 Td
+(clear) Tj
+ET
+BT
+/F0 11 Tf
+270.270 487.542 Td
+(sensitive) Tj
+ET
+BT
+/F0 11 Tf
+311.520 487.542 Td
+(data) Tj
+ET
+BT
+/F0 11 Tf
+332.596 487.542 Td
+(from) Tj
+ET
+BT
+/F0 11 Tf
+356.730 487.542 Td
+(memory.) Tj
+ET
+BT
+/F0 11 Tf
+87.274 456.764 Td
+(Encrypted) Tj
+ET
+BT
+/F0 11 Tf
+135.234 456.764 Td
+(files) Tj
+ET
+BT
+/F0 11 Tf
+156.926 456.764 Td
+(contain) Tj
+ET
+BT
+/F0 11 Tf
+192.060 456.764 Td
+(a) Tj
+ET
+BT
+/F0 11 Tf
+199.694 456.764 Td
+(file) Tj
+ET
+BT
+/F0 11 Tf
+217.107 456.764 Td
+(header,) Tj
+ET
+BT
+/F0 11 Tf
+251.922 456.764 Td
+(random) Tj
+ET
+BT
+/F0 11 Tf
+288.277 456.764 Td
+(salt,) Tj
+ET
+BT
+/F0 11 Tf
+309.056 456.764 Td
+(initialization) Tj
+ET
+BT
+/F0 11 Tf
+367.422 456.764 Td
+(vector) Tj
+ET
+BT
+/F0 11 Tf
+397.661 456.764 Td
+(\(IV\),) Tj
+ET
+BT
+/F0 11 Tf
+422.092 456.764 Td
+(ciphertext,) Tj
+ET
+BT
+/F0 11 Tf
+471.581 456.764 Td
+(and) Tj
+ET
+BT
+/F0 11 Tf
+87.274 441.375 Td
+(authentication) Tj
+ET
+BT
+/F0 11 Tf
+152.350 441.375 Td
+(tag.) Tj
+ET
+BT
+/F0 11 Tf
+174.042 441.375 Td
+(The) Tj
+ET
+BT
+/F0 11 Tf
+193.897 441.375 Td
+(authentication) Tj
+ET
+BT
+/F0 11 Tf
+258.973 441.375 Td
+(tag) Tj
+ET
+BT
+/F0 11 Tf
+275.165 441.375 Td
+(is) Tj
+ET
+BT
+/F0 11 Tf
+285.252 441.375 Td
+(used) Tj
+ET
+BT
+/F0 11 Tf
+308.165 441.375 Td
+(to) Tj
+ET
+BT
+/F0 11 Tf
+319.473 441.375 Td
+(check) Tj
+ET
+BT
+/F0 11 Tf
+347.875 441.375 Td
+(whether) Tj
+ET
+BT
+/F0 11 Tf
+386.056 441.375 Td
+(the) Tj
+ET
+BT
+/F0 11 Tf
+402.248 441.375 Td
+(encrypted) Tj
+ET
+BT
+/F0 11 Tf
+448.371 441.375 Td
+(file) Tj
+ET
+BT
+/F0 11 Tf
+465.784 441.375 Td
+(has) Tj
+ET
+BT
+/F0 11 Tf
+483.197 441.375 Td
+(been) Tj
+ET
+BT
+/F0 11 Tf
+87.274 425.986 Td
+(changed.) Tj
+ET
+/F1 11 Tf
+BT
+/F1 11 Tf
+68.024 379.819 Td
+(OPTIONS) Tj
+ET
+BT
+/F1 11 Tf
+87.274 364.430 Td
+(-e) Tj
+ET
+/F0 11 Tf
+BT
+/F0 11 Tf
+106.524 364.430 Td
+(Encrypt) Tj
+ET
+BT
+/F0 11 Tf
+144.100 364.430 Td
+(the) Tj
+ET
+BT
+/F0 11 Tf
+160.292 364.430 Td
+(input) Tj
+ET
+BT
+/F0 11 Tf
+185.658 364.430 Td
+(file.) Tj
+ET
+/F1 11 Tf
+BT
+/F1 11 Tf
+87.274 318.263 Td
+(-d) Tj
+ET
+/F0 11 Tf
+BT
+/F0 11 Tf
+107.140 318.263 Td
+(Decrypt) Tj
+ET
+BT
+/F0 11 Tf
+145.321 318.263 Td
+(the) Tj
+ET
+BT
+/F0 11 Tf
+161.513 318.263 Td
+(input) Tj
+ET
+BT
+/F0 11 Tf
+186.879 318.263 Td
+(file.) Tj
+ET
+/F1 11 Tf
+BT
+/F1 11 Tf
+87.274 272.096 Td
+(-p) Tj
+ET
+BT
+/F1 11 Tf
+99.803 272.096 Td
+(password) Tj
+ET
+/F0 11 Tf
+BT
+/F0 11 Tf
+106.524 256.707 Td
+(Specify) Tj
+ET
+BT
+/F0 11 Tf
+142.879 256.707 Td
+(the) Tj
+ET
+BT
+/F0 11 Tf
+159.071 256.707 Td
+(password) Tj
+ET
+BT
+/F0 11 Tf
+203.368 256.707 Td
+(used) Tj
+ET
+BT
+/F0 11 Tf
+226.281 256.707 Td
+(to) Tj
+ET
+BT
+/F0 11 Tf
+237.589 256.707 Td
+(derive) Tj
+ET
+BT
+/F0 11 Tf
+267.828 256.707 Td
+(the) Tj
+ET
+BT
+/F0 11 Tf
+284.020 256.707 Td
+(encryption) Tj
+ET
+BT
+/F0 11 Tf
+333.817 256.707 Td
+(key.) Tj
+ET
+/F1 11 Tf
+BT
+/F1 11 Tf
+87.274 210.540 Td
+(-h) Tj
+ET
+/F0 11 Tf
+BT
+/F0 11 Tf
+107.140 210.540 Td
+(Display) Tj
+ET
+BT
+/F0 11 Tf
+144.111 210.540 Td
+(usage) Tj
+ET
+BT
+/F0 11 Tf
+171.908 210.540 Td
+(information.) Tj
+ET
+/F1 11 Tf
+BT
+/F1 11 Tf
+68.024 164.373 Td
+(EXAMPLES) Tj
+ET
+/F0 11 Tf
+BT
+/F0 11 Tf
+87.274 148.984 Td
+(Encrypt) Tj
+ET
+BT
+/F0 11 Tf
+124.850 148.984 Td
+(a) Tj
+ET
+BT
+/F0 11 Tf
+132.484 148.984 Td
+(file:) Tj
+ET
+/F1 11 Tf
+BT
+/F1 11 Tf
+87.274 118.206 Td
+(filecrypt) Tj
+ET
+BT
+/F1 11 Tf
+129.734 118.206 Td
+(-e) Tj
+ET
+BT
+/F1 11 Tf
+141.031 118.206 Td
+(-p) Tj
+ET
+BT
+/F1 11 Tf
+153.560 118.206 Td
+(mypassword) Tj
+ET
+BT
+/F1 11 Tf
+215.589 118.206 Td
+(input.txt) Tj
+ET
+BT
+/F1 11 Tf
+258.984 118.206 Td
+(encrypted.bin) Tj
+ET
+/F0 11 Tf
+BT
+/F0 11 Tf
+68.024 739.233 Td
+(FILECRYPT\(1\)) Tj
+ET
+BT
+/F0 11 Tf
+270.699 739.233 Td
+(User) Tj
+ET
+BT
+/F0 11 Tf
+294.217 739.233 Td
+(Commands) Tj
+ET
+BT
+/F0 11 Tf
+472.758 739.233 Td
+(FILECRYPT\(1\)) Tj
+ET
+BT
+/F0 11 Tf
+68.024 36.245 Td
+(Operating) Tj
+ET
+BT
+/F0 11 Tf
+114.763 36.245 Td
+(Systems) Tj
+ET
+BT
+/F0 11 Tf
+154.187 36.245 Td
+(I) Tj
+ET
+BT
+/F0 11 Tf
+271.920 36.245 Td
+(November) Tj
+ET
+BT
+/F0 11 Tf
+321.101 36.245 Td
+(2026) Tj
+ET
+BT
+/F0 11 Tf
+472.758 36.245 Td
+(FILECRYPT\(1\)) Tj
+ET
+endstream
+endobj
+8 0 obj
+6972
+endobj
+9 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 3 0 R
+/F1 4 0 R
+/F2 5 0 R
+/F3 6 0 R
+>>
+>>
+endobj
+10 0 obj
+<<
+/Type /Page
+/Parent 2 0 R
+/Resources 9 0 R
+/Contents 7 0 R
+>>
+endobj
+11 0 obj
+<<
+/Length 12 0 R
+>>
+stream
+BT
+/F0 11 Tf
+87.274 702.988 Td
+(Decrypt) Tj
+ET
+BT
+/F0 11 Tf
+125.455 702.988 Td
+(a) Tj
+ET
+BT
+/F0 11 Tf
+133.089 702.988 Td
+(file:) Tj
+ET
+/F1 11 Tf
+BT
+/F1 11 Tf
+87.274 672.210 Td
+(filecrypt) Tj
+ET
+BT
+/F1 11 Tf
+129.734 672.210 Td
+(-d) Tj
+ET
+BT
+/F1 11 Tf
+142.263 672.210 Td
+(-p) Tj
+ET
+BT
+/F1 11 Tf
+154.792 672.210 Td
+(mypassword) Tj
+ET
+BT
+/F1 11 Tf
+216.821 672.210 Td
+(encrypted.bin) Tj
+ET
+BT
+/F1 11 Tf
+284.658 672.210 Td
+(output.txt) Tj
+ET
+BT
+/F1 11 Tf
+68.024 626.043 Td
+(LIMITATIONS) Tj
+ET
+/F0 11 Tf
+BT
+/F0 11 Tf
+87.274 610.654 Td
+(The) Tj
+ET
+BT
+/F0 11 Tf
+107.129 610.654 Td
+(output) Tj
+ET
+BT
+/F0 11 Tf
+137.995 610.654 Td
+(file) Tj
+ET
+BT
+/F0 11 Tf
+155.408 610.654 Td
+(must) Tj
+ET
+BT
+/F0 11 Tf
+179.553 610.654 Td
+(not) Tj
+ET
+BT
+/F0 11 Tf
+196.361 610.654 Td
+(already) Tj
+ET
+BT
+/F0 11 Tf
+231.484 610.654 Td
+(exist.) Tj
+ET
+BT
+/F0 11 Tf
+260.513 610.654 Td
+(Input) Tj
+ET
+BT
+/F0 11 Tf
+286.484 610.654 Td
+(and) Tj
+ET
+BT
+/F0 11 Tf
+305.118 610.654 Td
+(output) Tj
+ET
+BT
+/F0 11 Tf
+335.984 610.654 Td
+(paths) Tj
+ET
+BT
+/F0 11 Tf
+361.955 610.654 Td
+(must) Tj
+ET
+BT
+/F0 11 Tf
+386.100 610.654 Td
+(be) Tj
+ET
+BT
+/F0 11 Tf
+399.234 610.654 Td
+(different.) Tj
+ET
+BT
+/F0 11 Tf
+445.357 610.654 Td
+(Passwords) Tj
+ET
+BT
+/F0 11 Tf
+494.549 610.654 Td
+(supplied) Tj
+ET
+BT
+/F0 11 Tf
+87.274 595.265 Td
+(through) Tj
+ET
+BT
+/F0 11 Tf
+124.245 595.265 Td
+(-p) Tj
+ET
+BT
+/F0 11 Tf
+136.158 595.265 Td
+(may) Tj
+ET
+BT
+/F0 11 Tf
+157.850 595.265 Td
+(be) Tj
+ET
+BT
+/F0 11 Tf
+170.984 595.265 Td
+(visible) Tj
+ET
+BT
+/F0 11 Tf
+203.071 595.265 Td
+(in) Tj
+ET
+BT
+/F0 11 Tf
+214.379 595.265 Td
+(process) Tj
+ET
+BT
+/F0 11 Tf
+250.118 595.265 Td
+(arguments.) Tj
+ET
+BT
+/F0 11 Tf
+304.194 595.265 Td
+(Output) Tj
+ET
+BT
+/F0 11 Tf
+337.502 595.265 Td
+(files) Tj
+ET
+BT
+/F0 11 Tf
+359.194 595.265 Td
+(are) Tj
+ET
+BT
+/F0 11 Tf
+375.375 595.265 Td
+(created) Tj
+ET
+BT
+/F0 11 Tf
+409.882 595.265 Td
+(with) Tj
+ET
+BT
+/F0 11 Tf
+432.190 595.265 Td
+(permission) Tj
+ET
+BT
+/F0 11 Tf
+483.219 595.265 Td
+(0600.) Tj
+ET
+/F1 11 Tf
+BT
+/F1 11 Tf
+68.024 549.098 Td
+(ERROR) Tj
+ET
+BT
+/F1 11 Tf
+110.495 549.098 Td
+(HANDLING) Tj
+ET
+/F0 11 Tf
+BT
+/F0 11 Tf
+87.274 533.709 Td
+(The) Tj
+ET
+BT
+/F0 11 Tf
+107.129 533.709 Td
+(program) Tj
+ET
+BT
+/F0 11 Tf
+147.147 533.709 Td
+(rejects) Tj
+ET
+BT
+/F0 11 Tf
+178.607 533.709 Td
+(incorrect) Tj
+ET
+BT
+/F0 11 Tf
+220.451 533.709 Td
+(passwords,) Tj
+ET
+BT
+/F0 11 Tf
+271.777 533.709 Td
+(corrupted) Tj
+ET
+BT
+/F0 11 Tf
+316.679 533.709 Td
+(or) Tj
+ET
+BT
+/F0 11 Tf
+328.592 533.709 Td
+(tampered) Tj
+ET
+BT
+/F0 11 Tf
+372.273 533.709 Td
+(files,) Tj
+ET
+BT
+/F0 11 Tf
+396.715 533.709 Td
+(and) Tj
+ET
+BT
+/F0 11 Tf
+415.349 533.709 Td
+(invalid) Tj
+ET
+BT
+/F0 11 Tf
+448.657 533.709 Td
+(file) Tj
+ET
+BT
+/F0 11 Tf
+466.070 533.709 Td
+(formats.) Tj
+ET
+BT
+/F0 11 Tf
+507.925 533.709 Td
+(It) Tj
+ET
+BT
+/F0 11 Tf
+517.396 533.709 Td
+(also) Tj
+ET
+BT
+/F0 11 Tf
+87.274 518.320 Td
+(handles) Tj
+ET
+BT
+/F0 11 Tf
+123.629 518.320 Td
+(interruption) Tj
+ET
+BT
+/F0 11 Tf
+178.321 518.320 Td
+(signals) Tj
+ET
+BT
+/F0 11 Tf
+211.629 518.320 Td
+(such) Tj
+ET
+BT
+/F0 11 Tf
+234.542 518.320 Td
+(as) Tj
+ET
+BT
+/F0 11 Tf
+246.455 518.320 Td
+(Ctrl) Tj
+ET
+BT
+/F0 11 Tf
+266.321 518.320 Td
+(+) Tj
+ET
+BT
+/F0 11 Tf
+275.275 518.320 Td
+(C) Tj
+ET
+BT
+/F0 11 Tf
+285.362 518.320 Td
+(\(SIGINT\)) Tj
+ET
+BT
+/F0 11 Tf
+331.485 518.320 Td
+(and) Tj
+ET
+BT
+/F0 11 Tf
+350.119 518.320 Td
+(SIGTERM.) Tj
+ET
+BT
+/F0 11 Tf
+406.648 518.320 Td
+(Incomplete) Tj
+ET
+BT
+/F0 11 Tf
+458.887 518.320 Td
+(output) Tj
+ET
+BT
+/F0 11 Tf
+489.753 518.320 Td
+(files) Tj
+ET
+BT
+/F0 11 Tf
+511.445 518.320 Td
+(are) Tj
+ET
+BT
+/F0 11 Tf
+87.274 502.931 Td
+(removed) Tj
+ET
+BT
+/F0 11 Tf
+128.513 502.931 Td
+(when) Tj
+ET
+BT
+/F0 11 Tf
+155.089 502.931 Td
+(an) Tj
+ET
+BT
+/F0 11 Tf
+168.223 502.931 Td
+(operation) Tj
+ET
+BT
+/F0 11 Tf
+212.520 502.931 Td
+(fails) Tj
+ET
+BT
+/F0 11 Tf
+234.212 502.931 Td
+(or) Tj
+ET
+BT
+/F0 11 Tf
+246.125 502.931 Td
+(is) Tj
+ET
+BT
+/F0 11 Tf
+256.212 502.931 Td
+(interrupted.) Tj
+ET
+/F1 11 Tf
+BT
+/F1 11 Tf
+68.024 456.764 Td
+(SECURITY) Tj
+ET
+/F0 11 Tf
+BT
+/F0 11 Tf
+87.274 441.375 Td
+(AES-256-GCM) Tj
+ET
+BT
+/F0 11 Tf
+159.687 441.375 Td
+(provides) Tj
+ET
+BT
+/F0 11 Tf
+200.321 441.375 Td
+(encryption) Tj
+ET
+BT
+/F0 11 Tf
+250.118 441.375 Td
+(and) Tj
+ET
+BT
+/F0 11 Tf
+268.752 441.375 Td
+(authentication.) Tj
+ET
+BT
+/F0 11 Tf
+339.328 441.375 Td
+(PBKDF2-SHA256) Tj
+ET
+BT
+/F0 11 Tf
+425.194 441.375 Td
+(derives) Tj
+ET
+BT
+/F0 11 Tf
+459.712 441.375 Td
+(the) Tj
+ET
+BT
+/F0 11 Tf
+475.904 441.375 Td
+(encryption) Tj
+ET
+BT
+/F0 11 Tf
+525.701 441.375 Td
+(key) Tj
+ET
+BT
+/F0 11 Tf
+87.274 425.986 Td
+(using) Tj
+ET
+BT
+/F0 11 Tf
+113.861 425.986 Td
+(200,000) Tj
+ET
+BT
+/F0 11 Tf
+152.361 425.986 Td
+(iterations.) Tj
+ET
+BT
+/F0 11 Tf
+201.553 425.986 Td
+(Random) Tj
+ET
+BT
+/F0 11 Tf
+241.582 425.986 Td
+(salts) Tj
+ET
+BT
+/F0 11 Tf
+263.890 425.986 Td
+(and) Tj
+ET
+BT
+/F0 11 Tf
+282.524 425.986 Td
+(IVs) Tj
+ET
+BT
+/F0 11 Tf
+301.158 425.986 Td
+(are) Tj
+ET
+BT
+/F0 11 Tf
+317.339 425.986 Td
+(generated) Tj
+ET
+BT
+/F0 11 Tf
+362.846 425.986 Td
+(for) Tj
+ET
+BT
+/F0 11 Tf
+378.422 425.986 Td
+(each) Tj
+ET
+BT
+/F0 11 Tf
+401.324 425.986 Td
+(encrypted) Tj
+ET
+BT
+/F0 11 Tf
+447.447 425.986 Td
+(file.) Tj
+ET
+BT
+/F0 11 Tf
+470.360 425.986 Td
+(Sensitive) Tj
+ET
+BT
+/F0 11 Tf
+87.274 410.597 Td
+(memory) Tj
+ET
+BT
+/F0 11 Tf
+126.687 410.597 Td
+(is) Tj
+ET
+BT
+/F0 11 Tf
+136.774 410.597 Td
+(cleared) Tj
+ET
+BT
+/F0 11 Tf
+171.281 410.597 Td
+(using) Tj
+ET
+BT
+/F0 11 Tf
+197.868 410.597 Td
+(OPENSSL_cleanse\(\).) Tj
+ET
+/F1 11 Tf
+BT
+/F1 11 Tf
+68.024 364.430 Td
+(SEE) Tj
+ET
+BT
+/F1 11 Tf
+91.564 364.430 Td
+(ALSO) Tj
+ET
+/F0 11 Tf
+BT
+/F0 11 Tf
+87.274 349.041 Td
+(openssl\(1\),) Tj
+ET
+BT
+/F0 11 Tf
+138.600 349.041 Td
+(mmap\(2\),) Tj
+ET
+BT
+/F0 11 Tf
+184.426 349.041 Td
+(munmap\(2\),) Tj
+ET
+BT
+/F0 11 Tf
+241.252 349.041 Td
+(sigaction\(2\),) Tj
+ET
+BT
+/F0 11 Tf
+299.299 349.041 Td
+(getopt\(3\)) Tj
+ET
+/F0 11 Tf
+BT
+/F0 11 Tf
+68.024 739.233 Td
+(FILECRYPT\(1\)) Tj
+ET
+BT
+/F0 11 Tf
+270.699 739.233 Td
+(User) Tj
+ET
+BT
+/F0 11 Tf
+294.217 739.233 Td
+(Commands) Tj
+ET
+BT
+/F0 11 Tf
+472.758 739.233 Td
+(FILECRYPT\(1\)) Tj
+ET
+BT
+/F0 11 Tf
+68.024 36.245 Td
+(Operating) Tj
+ET
+BT
+/F0 11 Tf
+114.763 36.245 Td
+(Systems) Tj
+ET
+BT
+/F0 11 Tf
+154.187 36.245 Td
+(I) Tj
+ET
+BT
+/F0 11 Tf
+271.920 36.245 Td
+(November) Tj
+ET
+BT
+/F0 11 Tf
+321.101 36.245 Td
+(2026) Tj
+ET
+BT
+/F0 11 Tf
+472.758 36.245 Td
+(FILECRYPT\(1\)) Tj
+ET
+endstream
+endobj
+12 0 obj
+6141
+endobj
+13 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 3 0 R
+/F1 4 0 R
+/F2 5 0 R
+/F3 6 0 R
+>>
+>>
+endobj
+14 0 obj
+<<
+/Type /Page
+/Parent 2 0 R
+/Resources 13 0 R
+/Contents 11 0 R
+>>
+endobj
+2 0 obj
+<<
+/Type /Pages
+/MediaBox [0 0 612 790]
+/Count 2
+/Kids [ 10 0 R 14 0 R]
+>>
+endobj
+15 0 obj
+<<
+/Type /Catalog
+/Pages 2 0 R
+>>
+endobj
+xref
+0 16
+0000000000 65535 f 
+0000000009 00000 n 
+0000013978 00000 n 
+0000000030 00000 n 
+0000000112 00000 n 
+0000000193 00000 n 
+0000000276 00000 n 
+0000000363 00000 n 
+0000007387 00000 n 
+0000007407 00000 n 
+0000007502 00000 n 
+0000007583 00000 n 
+0000013778 00000 n 
+0000013799 00000 n 
+0000013895 00000 n 
+0000014068 00000 n 
+trailer
+<<
+/Size 16
+/Root 15 0 R
+/Info 1 0 R
+>>
+startxref
+14118
+%%EOF
