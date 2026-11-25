@@ -84,4 +84,4 @@ time             read/s      write/s    disk-rd/s    disk-wr/s  rd-sys  wr-sys
 
 ## Deliverables
 
-`Rosina Zhou - iotracker.c` (source), `Makefile`, `test.sh` (14 tests), `iotracker.1` (man page).
+`Rosina Zhou - iotracker.c` (source), `Makefile`, `test.sh` (14 tests), `iotracker.1` (man page), `iotracker.pdf` (man page as PDF).
