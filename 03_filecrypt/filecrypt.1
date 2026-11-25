@@ -27,7 +27,9 @@ It uses sigaction() to handle interruption signals and
 OPENSSL_cleanse() to clear sensitive data from memory.
 
 Encrypted files contain a file header, random salt,
-initialization vector, ciphertext, and authentication tag.
+initialization vector (IV), ciphertext, and authentication tag.
+The authentication tag is used to check whether the encrypted
+file has been changed.
 
 .SH OPTIONS
 .TP
@@ -62,10 +64,19 @@ Input and output paths must be different.
 Passwords supplied through -p may be visible in process arguments.
 Output files are created with permission 0600.
 
+.SH ERROR HANDLING
+The program rejects incorrect passwords, corrupted or
+tampered files, and invalid file formats.
+It also handles interruption signals such as Ctrl + C
+(SIGINT) and SIGTERM.
+Incomplete output files are removed when an operation fails
+or is interrupted.
+
 .SH SECURITY
 AES-256-GCM provides encryption and authentication.
-PBKDF2-SHA256 derives the encryption key.
+PBKDF2-SHA256 derives the encryption key using 200,000 iterations.
 Random salts and IVs are generated for each encrypted file.
+Sensitive memory is cleared using OPENSSL_cleanse().
 
 .SH SEE ALSO
 openssl(1), mmap(2), munmap(2), sigaction(2), getopt(3)
