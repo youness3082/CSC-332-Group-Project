@@ -51,6 +51,22 @@ check "-m without text exits 2" test "$status" -eq 2
 $PROGRAM extra 2>/dev/null; status=$?
 check "extra argument exits 2" test "$status" -eq 2
 
+# 10. Without -v, nothing is printed to standard error.
+check "no status messages without -v" \
+    test -z "$($PROGRAM -m hi 2>&1 >/dev/null)"
+
+# 11. -v prints status messages to standard error.
+check "-v prints status messages" \
+    grep -q '^\[done\]' <<< "$($PROGRAM -v -m hi 2>&1 >/dev/null)"
+
+# 12. -v does not change the data on standard output.
+check "-v keeps standard output unchanged" \
+    test "$($PROGRAM -v -m hi 2>/dev/null)" = 'hi'
+
+# 13. -v reports the right chunk count (5000 bytes = 4096 + 904 = 2 chunks).
+check "-v reports 5000 bytes in 2 chunks" \
+    grep -q 'sent 5000 bytes in 2 chunks' <<< "$($PROGRAM -v -m "$long" 2>&1 >/dev/null)"
+
 echo
 if [ "$failures" -eq 0 ]; then echo "ALL TESTS PASSED"; exit 0; fi
 echo "$failures TEST(S) FAILED"; exit 1

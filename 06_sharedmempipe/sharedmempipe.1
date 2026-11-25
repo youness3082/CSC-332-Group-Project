@@ -3,6 +3,7 @@
 sharedmempipe \- transfer data between processes through shared memory, synchronized by pipes
 .SH SYNOPSIS
 .B sharedmempipe
+.RB [ \-v ]
 .RB [ \-m
 .IR text ]
 .br
@@ -37,6 +38,16 @@ Send
 .I text
 instead of reading standard input.
 .TP
+.B \-v
+Verbose. Print each step to standard error: the shared memory and pipes being
+set up, each chunk the producer puts in shared memory and each
+.BR D ,
+.B A
+and
+.B Q
+message, and a final count of bytes and chunks. The data on standard output
+is not changed.
+.TP
 .B \-h
 Print usage and exit.
 .SH EXIT STATUS
@@ -58,6 +69,7 @@ causes a reported error instead of a silent exit.
 sharedmempipe \-m "hello"
 printf "one\\ntwo\\n" | sharedmempipe
 sharedmempipe < image.png > copy.png
+sharedmempipe \-v < image.png > copy.png
 .fi
 .SH SEE ALSO
 .BR mmap (2),

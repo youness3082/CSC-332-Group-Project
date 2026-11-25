@@ -7,7 +7,7 @@ Moves data from one process to another through shared memory. Two pipes carry
 
 Start in the repository folder (`CSC-332-Group-Project`).
 
-**1. Build and run the tests.** All 9 tests should print `PASS`.
+**1. Build and run the tests.** All 13 tests should print `PASS`.
 
 ```bash
 cd 06_sharedmempipe
@@ -35,14 +35,29 @@ head -c 1000000 /dev/urandom > big.bin
 cmp big.bin copy.bin && echo IDENTICAL
 ```
 
-**5. Show the help, then a bad option.** The bad option prints the usage and `exit=2`.
+**5. Watch every step with `-v` (verbose).** Uses a smaller 20,000-byte file,
+so the output is short: 5 chunks (four of 4096 bytes, one of 3616 bytes). For
+each chunk you see the producer put it in shared memory and send `D`, the
+consumer print it and send `A`, and the producer get `A` back. The status
+messages go to standard error, so they show on the screen but do not go into
+`copy.bin`. `diff -s` then prints `Files small.bin and copy.bin are identical`.
+
+```bash
+head -c 20000 /dev/urandom > small.bin
+./sharedmempipe -v < small.bin > copy.bin
+diff -s small.bin copy.bin
+```
+
+`-v` also works with a message: `./sharedmempipe -v -m "hello"`.
+
+**6. Show the help, then a bad option.** The bad option prints the usage and `exit=2`.
 
 ```bash
 ./sharedmempipe -h
 ./sharedmempipe -x; echo "exit=$?"
 ```
 
-**6. Stop with Ctrl+C.** Type a few lines. They do not print yet, because the
+**7. Stop with Ctrl+C.** Type a few lines. They do not print yet, because the
 program waits until it has a full 4096-byte chunk or the input ends. Press
 Ctrl+C: the lines print and the program stops cleanly. Then run the `echo`. It
 prints `exit=1`, which means it was interrupted but shut down properly.
@@ -52,17 +67,17 @@ cat | ./sharedmempipe
 echo "exit=$?"
 ```
 
-**7. Open the man page.** Press `q` to close it.
+**8. Open the man page.** Press `q` to close it.
 
 ```bash
 man ./sharedmempipe.1
 ```
 
-**8. Clean up.**
+**9. Clean up.**
 
 ```bash
 make clean
-rm -f big.bin copy.bin
+rm -f big.bin small.bin copy.bin
 ```
 
 ## Options
@@ -70,6 +85,7 @@ rm -f big.bin copy.bin
 | Option    | Meaning                                       |
 |-----------|-----------------------------------------------|
 | `-m text` | Send `text`. Without `-m`, read standard input. |
+| `-v`      | Verbose: print each step to standard error.   |
 | `-h`      | Show help and exit.                           |
 
 Exit status: `0` success, `1` runtime error or interrupted (Ctrl+C), `2` bad usage.
