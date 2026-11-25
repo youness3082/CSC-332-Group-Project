@@ -103,4 +103,4 @@ Exit status: `0` success, `1` runtime error or interrupted (Ctrl+C), `2` bad usa
 ## Files
 
 `Rasul Mohammad - Command 6.c` (source), `Makefile`, `test.sh` (tests),
-`sharedmempipe.1` (man page).
+`sharedmempipe.1` (man page), `sharedmempipe.pdf` (man page as PDF).
