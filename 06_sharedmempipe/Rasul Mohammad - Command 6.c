@@ -64,9 +64,15 @@ static int hand_off_chunk(struct shared_block *block, size_t length, int ready_f
 static int produce_from_message(struct shared_block *block, const char *message, int ready_fd, int ack_fd);
 static int produce_from_stdin(struct shared_block *block, int ready_fd, int ack_fd);
 
-int main(int argc, char **argv) {
+// sharedmempipe_main() is the entry point. The Custom Shell compiles this file
+// with -DSHAREDMEMPIPE_NO_MAIN and calls it directly.
+int sharedmempipe_main(int argc, char **argv) {
     const char *message = NULL;
     int option;
+
+    // Reset state so the command can run more than once in the same program
+    optind = 1;
+    stop_requested = 0;
 
     // 1. Parse command-line options with getopt(). Function parses CLI options automatically
     while ((option = getopt(argc, argv, "m:h")) != -1) {
@@ -168,6 +174,12 @@ int main(int argc, char **argv) {
         return 1;
     return 0;
 }
+
+#ifndef SHAREDMEMPIPE_NO_MAIN
+int main(int argc, char **argv) {
+    return sharedmempipe_main(argc, argv);
+}
+#endif
 
 static void handle_stop_signal(int signal_number) {
     (void)signal_number;    

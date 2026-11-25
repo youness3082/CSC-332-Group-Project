@@ -80,9 +80,14 @@ static void usage(const char *name)
     fprintf(stderr, "Usage: %s [-v] [-t] file1 file2\n", name);
 }
 
-int main(int argc, char **argv)
+// filediffadvanced_main() is the entry point. The Custom Shell compiles this
+// file with -DFILEDIFFADVANCED_NO_MAIN and calls it directly.
+int filediffadvanced_main(int argc, char **argv)
 {
     int opt, verbose = 0, text = 0, result = 2;
+    // Reset state so the command can run more than once in the same program.
+    optind = 1;
+    interrupted = 0;
     while ((opt = getopt(argc, argv, "tvh")) != -1) {
         if (opt == 'v') verbose = 1;
         else if (opt == 't') text = 1;
@@ -136,3 +141,10 @@ cleanup:
     }
     return result;
 }
+
+#ifndef FILEDIFFADVANCED_NO_MAIN
+int main(int argc, char **argv)
+{
+    return filediffadvanced_main(argc, argv);
+}
+#endif

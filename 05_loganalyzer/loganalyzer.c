@@ -34,11 +34,17 @@ static int contains(const char *s, size_t n, const char *key) {
     return 0;
 }
 
-/* Parse options, read the log, count matching lines, and print results. */
-int main(int argc, char **argv) {
+/*
+ * Parse options, read the log, count matching lines, and print results.
+ * loganalyzer_main() is the entry point. The Custom Shell compiles this file
+ * with -DLOGANALYZER_NO_MAIN and calls it directly.
+ */
+int loganalyzer_main(int argc, char **argv) {
     /* -k stores the optional keyword; -v enables printing matching lines. */
     const char *keyword = NULL;
     int verbose = 0, option;
+    /* Reset getopt so the command can run more than once in the same program. */
+    optind = 1;
     /* getopt() reads the supported command-line options. */
     while ((option = getopt(argc, argv, "k:vh")) != -1) {
         switch (option) {
@@ -105,3 +111,9 @@ int main(int argc, char **argv) {
     close(fd);
     return 0;
 }
+
+#ifndef LOGANALYZER_NO_MAIN
+int main(int argc, char **argv) {
+    return loganalyzer_main(argc, argv);
+}
+#endif
