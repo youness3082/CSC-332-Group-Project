@@ -115,6 +115,16 @@ top secret message
 
 Attempts to decrypt the file using an incorrect password. The program rejects the request because the password is incorrect, and no output file is created.
 
+**7. Test Ctrl + C interruption**
+
+```bash
+./filecrypt -e -p demo123 plain.txt interrupted.bin
+```
+
+While the program is running, press `Ctrl + C` to interrupt the operation.
+
+`filecrypt` handles the interrupt signal and stops the operation safely. If the operation is interrupted before completion, the incomplete output file is removed so that it is not mistaken for a successfully encrypted file.
+
 ## Design and Limits
 
 - Uses `mmap()` to read input files.
